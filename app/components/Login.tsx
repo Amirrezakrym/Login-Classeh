@@ -44,11 +44,11 @@ const Login = () => {
   };
  
   return (
-    <section className='h-dvh w-full mx-auto bg-[#FFBF09]'>
+    <section className='h-dvh w-full mx-auto'>
       <div>
         <Toaster position='top-center' reverseOrder={false} />
       </div>
-      <div className='flex flex-col justify-end mx-auto h-dvh relative  max-w-md'>
+      <div className='flex flex-col justify-end mx-auto h-dvh relative bg-[#FFBF09] max-w-md'>
         <div className='bg-zarafe bg-no-repeat absolute w-full h-[70%] top-0 z-[1] bg-contain bg-top'></div>
 
         <div className='bg-back-pattern px-6 z-10 h-1/2 bg-no-repeat bg-cover'>

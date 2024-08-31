@@ -11,7 +11,6 @@ import Link from "next/link";
 import OtpInput from "react-otp-input";
 const Confirm = () => {
   const [otp, setOtp] = useState<any>("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [formState, formAction] = useFormState(LoginRegister, null);
   const message = formState?.zodErrors?.number;
 
@@ -32,24 +31,13 @@ const Confirm = () => {
     );
   }
 
-  const handleInputChange = (e: any) => {
-    setPhoneNumber(e.target.value);
-  };
-
-  const keyDownHandler = (e: any) => {
-    if (e.key === "Enter" && phoneNumber.length < 11) {
-      e.preventDefault();
-
-      toast.custom((t) => <Toast message={message || "عزیزم لطفا شمارتو وارد کن"} icon={<InfoIcon />} />);
-    }
-  };
-  const handleChange = (otp: string) => setOtp(otp);
+ 
   return (
-    <section className='h-dvh w-full mx-auto bg-[#FFBF09]'>
+    <section className='h-dvh w-full mx-auto'>
       <div>
         <Toaster position='top-center' reverseOrder={false} />
       </div>
-      <div className='flex flex-col justify-end mx-auto h-dvh relative  max-w-md'>
+      <div className='flex flex-col justify-end mx-auto h-dvh relative bg-[#FFBF09] max-w-md'>
         <div className='bg-zarafe bg-no-repeat absolute w-full h-[70%] top-0 z-[1] bg-contain bg-top'></div>
 
         <div className='bg-back-pattern px-6 z-10 h-1/2 bg-no-repeat bg-cover'>
@@ -69,29 +57,26 @@ const Confirm = () => {
           </div>
 
           {/* Form */}
-          <form className='w-full text-black w ' action={formAction} onKeyDown={keyDownHandler}>
-           
+          <form className='w-full' action={formAction} >    
             <OtpInput
               value={otp}
-            onChange={setOtp}
+              onChange={setOtp}
               numInputs={5}
               shouldAutoFocus={true}
               inputType="text"
+              skipDefaultStyles={true}
               containerStyle='w-full justify-center my-5 text-black flex-row-reverse'
-              inputStyle='w-12 bg-[#FD69091A] text-black border border-[#3D30181A] outline-none focus:border-[#FD6909] hover:border-[#FD6909] rounded-2xl'
-              renderInput={(props) => <input {...props} />}
-              
+              inputStyle='w-12 h-12 mx-1 text-center font-w700 text-s14 bg-[#FD69091A] text-black border border-[#3D30181A] outline-none focus:border-[#FD6909] hover:border-[#FD6909] rounded-2xl'
+              renderInput={(inputProps, index) => (
+                <input
+                  {...inputProps}
+                  className={`w-12 h-12 mx-1 text-center bg-[#FD69091A] text-black border ${
+                    otp[index] ? "border-[#FD6909]" : "border-[#3D30181A]"
+                  } outline-none focus:border-[#FD6909] hover:border-[#FD6909] rounded-2xl`}
+                />
+              )}
             />
-            {/* <OtpInput
-              value={otp}
-              onChange={handleChange}
-              numInputs={6} // Number of OTP digits
-              renderInput={(props) => <input {...props}  />}
-              shouldAutoFocus={true}
-              inputStyle='w-12 h-12 bg-[#FD69091A] text-black border border-[#3D30181A] focus:border-[#FD6909] hover:border-[#FD6909] outline-none rounded-2xl text-center'
-              containerStyle='flex justify-center space-x-2'
-            /> */}
-            <SubmitButton phoneNumber={phoneNumber} />
+            <SubmitButton />
           </form>
         </div>
       </div>
@@ -101,7 +86,7 @@ const Confirm = () => {
 
 export default Confirm;
 
-function SubmitButton({ phoneNumber }: any) {
+function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button
@@ -109,7 +94,7 @@ function SubmitButton({ phoneNumber }: any) {
       disabled={pending}
       className={`rounded-2xl font-w700 text-s14 block text-white mx-auto px-14 py-3 mb-3 transition-all duration-500 ${
         pending ? "bg-[#cc5d13] cursor-not-allowed" : "bg-[#FD6909]"
-      } ${phoneNumber.length === 11 ? "opacity-1 visible" : "opacity-0 invisible"}`}
+      }`}
     >
       {pending ? "در حال ارسال..." : "ادامه"}
     </button>
